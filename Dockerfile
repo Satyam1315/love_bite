@@ -33,6 +33,7 @@ RUN apt-get update \
         libpng-dev \
         libjpeg62-turbo-dev \
         libfreetype6-dev \
+        libonig-dev \
         libsqlite3-dev \
         libzip-dev \
         unzip \
