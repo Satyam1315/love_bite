@@ -24,7 +24,7 @@ class DineInController extends Controller
             session()->forget('cart');
         }
 
-        $query = Food::where('is_available', true);
+        $query = Food::available();
 
         if ($request->filled('category')) {
             $query->whereHas('category', function ($q) use ($request) {

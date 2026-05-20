@@ -36,4 +36,12 @@ class Food extends Model
     {
         return $this->hasMany(OrderItem::class);
     }
+
+    /**
+     * Scope a query to only include available food items.
+     */
+    public function scopeAvailable($query)
+    {
+        return $query->where('is_available', config('database.default') === 'pgsql' ? 'true' : 1);
+    }
 }

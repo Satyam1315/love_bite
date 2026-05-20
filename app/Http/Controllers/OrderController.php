@@ -33,7 +33,7 @@ class OrderController extends Controller
         $discount = 0.0;
 
         if ($couponCode) {
-            $coupon = Coupon::where('code', $couponCode)->where('is_active', true)->first();
+            $coupon = Coupon::where('code', $couponCode)->active()->first();
             if ($coupon && $coupon->isValidForAmount($subtotal)) {
                 $discount = $coupon->calculateDiscount($subtotal);
             } else {
@@ -44,7 +44,7 @@ class OrderController extends Controller
 
         $total = max(0.0, $subtotal - $discount);
         
-        $activeCoupons = Coupon::where('is_active', true)
+        $activeCoupons = Coupon::active()
             ->where(function ($query) {
                 $query->whereNull('expires_at')
                       ->orWhere('expires_at', '>', now());
@@ -96,7 +96,7 @@ class OrderController extends Controller
         $discount = 0.0;
 
         if ($couponCode) {
-            $coupon = Coupon::where('code', $couponCode)->where('is_active', true)->first();
+            $coupon = Coupon::where('code', $couponCode)->active()->first();
             if ($coupon && $coupon->isValidForAmount($subtotal)) {
                 $discount = $coupon->calculateDiscount($subtotal);
             } else {

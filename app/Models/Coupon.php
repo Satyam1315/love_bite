@@ -59,4 +59,12 @@ class Coupon extends Model
         // Discount cannot exceed the subtotal
         return min($discount, $subtotal);
     }
+
+    /**
+     * Scope a query to only include active coupons.
+     */
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', config('database.default') === 'pgsql' ? 'true' : 1);
+    }
 }
