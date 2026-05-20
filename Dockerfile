@@ -66,9 +66,11 @@ COPY --from=frontend /app/public/build ./public/build
 RUN mkdir -p storage/app/public bootstrap/cache \
     && touch database/database.sqlite \
     && ln -sfn ../storage/app/public public/storage \
-    && chown -R www-data:www-data storage bootstrap/cache
+    && chown -R www-data:www-data storage bootstrap/cache \
+    && php artisan migrate --force
 
 RUN php artisan package:discover --ansi
+
 
 EXPOSE 10000
 
