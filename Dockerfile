@@ -33,6 +33,7 @@ RUN apt-get update \
         libpng-dev \
         libjpeg62-turbo-dev \
         libfreetype6-dev \
+        libsqlite3-dev \
         libzip-dev \
         unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
@@ -40,7 +41,8 @@ RUN apt-get update \
         gd \
         mbstring \
         pdo \
-        pdo_mysql \
+        pdo_sqlite \
+        sqlite3 \
         zip \
     && a2enmod rewrite headers \
     && sed -i 's/Listen 80/Listen 10000/g' /etc/apache2/ports.conf \
@@ -62,6 +64,7 @@ COPY --from=vendor /app/vendor ./vendor
 COPY --from=frontend /app/public/build ./public/build
 
 RUN mkdir -p storage/app/public bootstrap/cache \
+    && touch database/database.sqlite \
     && ln -sfn ../storage/app/public public/storage \
     && chown -R www-data:www-data storage bootstrap/cache
 
