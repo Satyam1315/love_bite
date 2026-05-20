@@ -39,12 +39,11 @@ RUN apt-get update \
         unzip \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install \
-        gd \
-        mbstring \
-        pdo \
-        pdo_sqlite \
-        sqlite3 \
-        zip \
+    gd \
+    mbstring \
+    pdo \
+    pdo_sqlite \
+    zip
     && a2enmod rewrite headers \
     && sed -i 's/Listen 80/Listen 10000/g' /etc/apache2/ports.conf \
     && printf '%s\n' \
