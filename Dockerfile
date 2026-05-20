@@ -43,7 +43,7 @@ RUN apt-get update \
     mbstring \
     pdo \
     pdo_sqlite \
-    zip
+    zip \
     && a2enmod rewrite headers \
     && sed -i 's/Listen 80/Listen 10000/g' /etc/apache2/ports.conf \
     && printf '%s\n' \
