@@ -288,9 +288,9 @@
                     <div>
                         <h4 class="mb-3 text-sm font-bold tracking-wider text-gray-900 uppercase">Contact</h4>
                         <ul class="space-y-2 text-sm text-gray-600 font-semibold">
-                            <li>📞 +91 98765 43210</li>
-                            <li>📧 hello@lovebite.in</li>
-                            <li>📍 Your City, India</li>
+                            <li>📞 +91 80928 07876</li>
+                            <li>📧 lovebiternc@gmail.com</li>
+                            <li>📍 87CW+GPJ, Dhurwa Rd, near Rajendra Bhawan, Sector 2 Market, E Block, Sector 2, Dhurwa, Ranchi, Jharkhand 834004</li>
                         </ul>
                     </div>
                 </div>

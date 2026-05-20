@@ -34,6 +34,7 @@ RUN apt-get update \
         libjpeg62-turbo-dev \
         libfreetype6-dev \
         libonig-dev \
+        libpq-dev \
         libsqlite3-dev \
         libzip-dev \
         unzip \
@@ -42,7 +43,7 @@ RUN apt-get update \
     gd \
     mbstring \
     pdo \
-    pdo_sqlite \
+    pdo_pgsql \
     zip \
     && a2enmod rewrite headers \
     && sed -i 's/Listen 80/Listen 10000/g' /etc/apache2/ports.conf \
@@ -70,6 +71,8 @@ RUN mkdir -p storage/app/public bootstrap/cache \
     && php artisan migrate --force
 
 RUN php artisan package:discover --ansi
+
+CMD php artisan migrate --force && apache2-foreground
 
 
 EXPOSE 10000
