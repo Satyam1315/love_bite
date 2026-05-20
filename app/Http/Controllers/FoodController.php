@@ -7,6 +7,7 @@ use App\Models\Food;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Cache;
 
 class FoodController extends Controller
 {
@@ -22,28 +23,40 @@ class FoodController extends Controller
             ]);
         }
 
-        $categories = Category::orderBy('name')->get();
-        $popularItems = Food::with('category')
-            ->withCount('orderItems')
-            ->orderByDesc('order_items_count')
-            ->latest()
-            ->take(6)
-            ->get();
+        // Cache queries for 5 minutes (300 seconds) to maximize performance and reduce Supabase load
+        $categories = Cache::remember('home_categories', 300, function () {
+            return Category::orderBy('name')->get();
+        });
 
-        $latestItems = Food::with('category')
-            ->latest()
-            ->take(6)
-            ->get();
+        $popularItems = Cache::remember('home_popular_items', 300, function () {
+            return Food::with('category')
+                ->withCount('orderItems')
+                ->orderByDesc('order_items_count')
+                ->latest()
+                ->take(6)
+                ->get();
+        });
 
-        $recommendedItems = Food::with('category')
-            ->inRandomOrder()
-            ->take(6)
-            ->get();
+        $latestItems = Cache::remember('home_latest_items', 300, function () {
+            return Food::with('category')
+                ->latest()
+                ->take(6)
+                ->get();
+        });
 
-        $todaySpecials = Food::with('category')
-            ->latest()
-            ->take(3)
-            ->get();
+        $recommendedItems = Cache::remember('home_recommended_items', 300, function () {
+            return Food::with('category')
+                ->inRandomOrder()
+                ->take(6)
+                ->get();
+        });
+
+        $todaySpecials = Cache::remember('home_today_specials', 300, function () {
+            return Food::with('category')
+                ->latest()
+                ->take(3)
+                ->get();
+        });
 
         return view('home', [
             'categories'       => $categories,
@@ -63,7 +76,10 @@ class FoodController extends Controller
             ]);
         }
 
-        $categories = Category::orderBy('name')->get();
+        // Cache menu categories to prevent query repetition on filter requests
+        $categories = Cache::remember('menu_categories', 300, function () {
+            return Category::orderBy('name')->get();
+        });
 
         $foodsQuery = Food::with('category')->latest();
 
