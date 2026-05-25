@@ -33,12 +33,12 @@ class Setting extends Model
     public static function isOpen(): bool
     {
         // Manual override: force open
-        if ((bool) static::get('is_force_opened', false)) {
+        if (static::get('is_force_opened', '0') === '1') {
             return true;
         }
 
         // Manual override: force closed
-        if ((bool) static::get('is_manually_closed', false)) {
+        if (static::get('is_manually_closed', '0') === '1') {
             return false;
         }
 

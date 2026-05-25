@@ -207,8 +207,8 @@ class AdminController extends Controller
         $settings = [
             'opening_time'      => Setting::get('opening_time', '13:00'),
             'closing_time'      => Setting::get('closing_time', '22:00'),
-            'is_manually_closed'=> (bool) Setting::get('is_manually_closed', false),
-            'is_force_opened'   => (bool) Setting::get('is_force_opened', false),
+            'is_manually_closed'=> Setting::get('is_manually_closed', '0') === '1',
+            'is_force_opened'   => Setting::get('is_force_opened', '0') === '1',
             'closed_message'    => Setting::get('closed_message', 'We are currently closed. We open at {opening_time} and close at {closing_time}.'),
         ];
 
@@ -231,8 +231,8 @@ class AdminController extends Controller
 
         Setting::set('opening_time',       $validated['opening_time']);
         Setting::set('closing_time',       $validated['closing_time']);
-        Setting::set('is_manually_closed', (bool) ($validated['is_manually_closed'] ?? false));
-        Setting::set('is_force_opened',    (bool) ($validated['is_force_opened'] ?? false));
+        Setting::set('is_manually_closed', $request->boolean('is_manually_closed') ? '1' : '0');
+        Setting::set('is_force_opened',    $request->boolean('is_force_opened') ? '1' : '0');
         Setting::set('closed_message',     $validated['closed_message']);
 
         return back()->with('success', 'Restaurant hours updated successfully.');
